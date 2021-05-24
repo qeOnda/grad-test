@@ -40,13 +40,24 @@ module.exports = function sortArray(input) {
     }
   }
 
-  if (!(input instanceof Array) || !(input.every(elem => typeof elem == "number"))) {
-    throw new TypeError("error");
-  } 
-
-  if (input.length < 1) {
-    return [];
+  function sorter(arr) {
+    if (!(arr instanceof Array) || !(arr.every(elem => typeof elem == "number"))) {
+      throw new TypeError("Must be an array of integers");
+    } 
+    if (arr.length < 1) {
+      return [];
+    }
+    return quickSort(arr);  
   }
 
-  return quickSort(input);
+  try {
+    return sorter(input)
+  } catch (err) {
+    if (err instanceof TypeError) {
+      return ("Invalid input type: " + err);
+    } else {
+      throw err;
+    }
+  }
 };
+
